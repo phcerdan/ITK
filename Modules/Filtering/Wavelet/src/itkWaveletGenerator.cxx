@@ -1,22 +1,24 @@
-/*=========================================================================
+/*
+ * Copyright (C) 2005-2017 Centre National d'Etudes Spatiales (CNES)
+ * Copyright (C) 2007-2012 Institut Mines Telecom / Telecom Bretagne
+ *
+ * This file is part of Orfeo Toolbox
+ *
+ *     https://www.orfeo-toolbox.org/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-  Program:   ORFEO Toolbox
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-
-  Copyright (c) Centre National d'Etudes Spatiales. All rights reserved.
-  See OTBCopyright.txt for details.
-
-  Copyright (c) Institut Mines-Telecom. All rights reserved.
-  See IMTCopyright.txt for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
 
 #include "itkWaveletGenerator.h"
 
@@ -36,7 +38,7 @@ WaveletGenerator<TMotherWaveletOperator>
 {
   std::ostringstream msg;
   msg << "The mother wavelet ID " << TMotherWaveletOperator;
-  msg << " is unkown or has to be implemented...\n";
+  msg << " is unknown or has to be implemented...\n";
   throw itk::ExceptionObject(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);
 
   return "Unknown";
@@ -49,7 +51,7 @@ WaveletGenerator<TMotherWaveletOperator>
 {
   std::ostringstream msg;
   msg << "The mother wavelet ID " << TMotherWaveletOperator;
-  msg << " is unkown or has to be implemented...\n";
+  msg << " is unknown or has to be implemented...\n";
   throw itk::ExceptionObject(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);
 }
 
@@ -60,7 +62,7 @@ WaveletGenerator<TMotherWaveletOperator>
 {
   std::ostringstream msg;
   msg << "The mother wavelet ID " << TMotherWaveletOperator;
-  msg << " is unkown or has to be implemented (check the txx file)...\n";
+  msg << " is unknown or has to be implemented (check the txx file)...\n";
   throw itk::ExceptionObject(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);
 }
 
@@ -83,9 +85,9 @@ WaveletGenerator<Wavelet::HAAR>
   // stands for z^{-1}
   coeff[0] = 0.0;
   // stands for z^0
-  coeff[1] = 0.5 * SQRT2;
+  coeff[1] = 0.5 * CONST_SQRT2;
   // stands for z^1
-  coeff[2] = 0.5 * SQRT2;
+  coeff[2] = 0.5 * CONST_SQRT2;
 }
 
 template <>
@@ -97,9 +99,9 @@ WaveletGenerator<Wavelet::HAAR>
   // stands for z^{-1}
   coeff[0] = 0.;
   // stands for z^0
-  coeff[1] = -0.5 * SQRT2;
+  coeff[1] = -0.5 * CONST_SQRT2;
   // stands for z^1
-  coeff[2] = 0.5 * SQRT2;
+  coeff[2] = 0.5 * CONST_SQRT2;
 }
 
 /**
@@ -119,10 +121,10 @@ WaveletGenerator<Wavelet::DAUBECHIES4>
 {
   coeff.resize(5);
   coeff[0] = 0.;
-  coeff[1] = (1 + SQRT3) / 8.0 * SQRT2;
-  coeff[2] = (3 + SQRT3) / 8.0 * SQRT2;
-  coeff[3] = (3 - SQRT3) / 8.0 * SQRT2;
-  coeff[4] = (1 - SQRT3) / 8.0 * SQRT2;
+  coeff[1] = (1 + CONST_SQRT3) / 8.0 * CONST_SQRT2;
+  coeff[2] = (3 + CONST_SQRT3) / 8.0 * CONST_SQRT2;
+  coeff[3] = (3 - CONST_SQRT3) / 8.0 * CONST_SQRT2;
+  coeff[4] = (1 - CONST_SQRT3) / 8.0 * CONST_SQRT2;
 }
 
 template <>
@@ -132,10 +134,10 @@ WaveletGenerator<Wavelet::DAUBECHIES4>
 {
   coeff.resize(5);
   coeff[0] = 0;
-  coeff[1] = -(1 - SQRT3) / 8.0 * SQRT2;
-  coeff[2] = (3 - SQRT3) / 8.0 * SQRT2;
-  coeff[3] = -(3 + SQRT3) / 8.0 * SQRT2;
-  coeff[4] = (1 + SQRT3) / 8.0 * SQRT2;
+  coeff[1] = -(1 - CONST_SQRT3) / 8.0 * CONST_SQRT2;
+  coeff[2] = (3 - CONST_SQRT3) / 8.0 * CONST_SQRT2;
+  coeff[3] = -(3 + CONST_SQRT3) / 8.0 * CONST_SQRT2;
+  coeff[4] = (1 + CONST_SQRT3) / 8.0 * CONST_SQRT2;
 }
 
 /**
@@ -363,15 +365,15 @@ WaveletGenerator<Wavelet::SPLINE_BIORTHOGONAL_2_4>
 ::GetLowPassCoefficientVector(CoefficientVector& coeff) const
 {
   coeff.resize(9);
-  coeff[0] = 3.0 / 128.0 * SQRT2;
-  coeff[1] = -3.0 /  64.0 * SQRT2;
-  coeff[2] = -1.0 /   8.0 * SQRT2;
-  coeff[3] = 19.0 /  64.0 * SQRT2;
-  coeff[4] = 45.0 /  64.0 * SQRT2;
-  coeff[5] = 19.0 /  64.0 * SQRT2;
-  coeff[6] = -1.0 /   8.0 * SQRT2;
-  coeff[7] = -3.0 /  64.0 * SQRT2;
-  coeff[8] = 3.0 / 128.0 * SQRT2;
+  coeff[0] = 3.0 / 128.0 * CONST_SQRT2;
+  coeff[1] = -3.0 /  64.0 * CONST_SQRT2;
+  coeff[2] = -1.0 /   8.0 * CONST_SQRT2;
+  coeff[3] = 19.0 /  64.0 * CONST_SQRT2;
+  coeff[4] = 45.0 /  64.0 * CONST_SQRT2;
+  coeff[5] = 19.0 /  64.0 * CONST_SQRT2;
+  coeff[6] = -1.0 /   8.0 * CONST_SQRT2;
+  coeff[7] = -3.0 /  64.0 * CONST_SQRT2;
+  coeff[8] = 3.0 / 128.0 * CONST_SQRT2;
 }
 
 template <>
@@ -384,9 +386,9 @@ WaveletGenerator<Wavelet::SPLINE_BIORTHOGONAL_2_4>
   coeff[1] = 0.;
   coeff[2] = 0.;
   coeff[3] = 0.;
-  coeff[4] = -1.0 / 4.0 * SQRT2;
-  coeff[5] = 1.0 / 2.0 * SQRT2;
-  coeff[6] = -1.0 / 4.0 * SQRT2;
+  coeff[4] = -1.0 / 4.0 * CONST_SQRT2;
+  coeff[5] = 1.0 / 2.0 * CONST_SQRT2;
+  coeff[6] = -1.0 / 4.0 * CONST_SQRT2;
   coeff[7] = 0.;
   coeff[8] = 0.;
 }
@@ -417,15 +419,15 @@ WaveletGenerator<Wavelet::SPLINE_BIORTHOGONAL_4_4>
 ::GetLowPassCoefficientVector(CoefficientVector& coeff) const
 {
   coeff.resize(9);
-  coeff[0] = 0.026748757411 * SQRT2;
-  coeff[1] = -0.016864118443 * SQRT2;
-  coeff[2] = -0.078223266529 * SQRT2;
-  coeff[3] = 0.266864118443 * SQRT2;
-  coeff[4] = 0.602949018236 * SQRT2;
-  coeff[5] = 0.266864118443 * SQRT2;
-  coeff[6] = -0.078223266529 * SQRT2;
-  coeff[7] = -0.016864118443 * SQRT2;
-  coeff[8] = 0.026748757411 * SQRT2;
+  coeff[0] = 0.026748757411 * CONST_SQRT2;
+  coeff[1] = -0.016864118443 * CONST_SQRT2;
+  coeff[2] = -0.078223266529 * CONST_SQRT2;
+  coeff[3] = 0.266864118443 * CONST_SQRT2;
+  coeff[4] = 0.602949018236 * CONST_SQRT2;
+  coeff[5] = 0.266864118443 * CONST_SQRT2;
+  coeff[6] = -0.078223266529 * CONST_SQRT2;
+  coeff[7] = -0.016864118443 * CONST_SQRT2;
+  coeff[8] = 0.026748757411 * CONST_SQRT2;
 }
 
 template <>
@@ -436,13 +438,13 @@ WaveletGenerator<Wavelet::SPLINE_BIORTHOGONAL_4_4>
   coeff.resize(9);
   coeff[0] = 0.;
   coeff[1] = 0.;
-  coeff[2] = 0.045635881557 * SQRT2;
-  coeff[3] = -0.028771763114 * SQRT2;
-  coeff[4] = -0.295635881557 * SQRT2;
-  coeff[5] = 0.557543526229 * SQRT2;
-  coeff[6] = -0.295635881557 * SQRT2;
-  coeff[7] = -0.028771763114 * SQRT2;
-  coeff[8] = 0.045635881557 * SQRT2;
+  coeff[2] = 0.045635881557 * CONST_SQRT2;
+  coeff[3] = -0.028771763114 * CONST_SQRT2;
+  coeff[4] = -0.295635881557 * CONST_SQRT2;
+  coeff[5] = 0.557543526229 * CONST_SQRT2;
+  coeff[6] = -0.295635881557 * CONST_SQRT2;
+  coeff[7] = -0.028771763114 * CONST_SQRT2;
+  coeff[8] = 0.045635881557 * CONST_SQRT2;
 }
 
 /**

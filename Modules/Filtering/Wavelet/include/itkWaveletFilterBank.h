@@ -1,22 +1,23 @@
-/*=========================================================================
-
-  Program:   ORFEO Toolbox
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-
-  Copyright (c) Centre National d'Etudes Spatiales. All rights reserved.
-  See OTBCopyright.txt for details.
-
-  Copyright (c) Institut Mines-Telecom. All rights reserved.
-  See IMTCopyright.txt for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+/*
+ * Copyright (C) 2005-2017 Centre National d'Etudes Spatiales (CNES)
+ * Copyright (C) 2007-2012 Institut Mines Telecom / Telecom Bretagne
+ *
+ * This file is part of Orfeo Toolbox
+ *
+ *     https://www.orfeo-toolbox.org/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #ifndef itkWaveletFilterBank_h
 #define itkWaveletFilterBank_h
@@ -212,13 +213,13 @@ public:
 
 protected:
   WaveletFilterBank();
-  virtual ~WaveletFilterBank() {}
+  ~WaveletFilterBank() ITK_OVERRIDE {}
 
   /** GenerateOutputInformation
     * Set the size of the output image depending on the decimation factor
     * Copy information from the input image if existing.
     **/
-  virtual void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** The forward transformation needs a larger input requested
    * region than the output requested region (larger by subsampling
@@ -229,13 +230,13 @@ protected:
    * pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion()
-    throw (itk::InvalidRequestedRegionError);
+  void GenerateInputRequestedRegion()
+    throw (itk::InvalidRequestedRegionError) ITK_OVERRIDE;
 
   /** BeforeThreadedGenerateData.
    * It allocates also internal images
    */
-  virtual void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** Internal Data Allocation
    * If m_SubsampleImageFactor != 1, internal data with progressive region size
@@ -246,17 +247,17 @@ protected:
   /** AfterThreadedGenerateData.
    * It enforce memory destruction of internal images
    */
-  virtual void AfterThreadedGenerateData();
+  void AfterThreadedGenerateData() ITK_OVERRIDE;
 
   /** CallCopyOutputRegionToInputRegion
    * Since input and output image may be of different size when a
    * subsampling factor has tp be applied, Region estimation
    * functions has to be reimplemented
    */
-  virtual void CallCopyOutputRegionToInputRegion
-    (InputImageRegionType& destRegion, const OutputImageRegionType& srcRegion);
-  virtual void CallCopyInputRegionToOutputRegion
-    (OutputImageRegionType& destRegion, const InputImageRegionType& srcRegion);
+  void CallCopyOutputRegionToInputRegion
+    (InputImageRegionType& destRegion, const OutputImageRegionType& srcRegion) ITK_OVERRIDE;
+  void CallCopyInputRegionToOutputRegion
+    (OutputImageRegionType& destRegion, const InputImageRegionType& srcRegion) ITK_OVERRIDE;
 
   /** CallCopyOutputRegionToInputRegion
    * This function is also redefined in order to adapt the shape of the regions with
@@ -270,7 +271,7 @@ protected:
                                                  const InputImageRegionType& srcRegion);
 
   /** Generate data redefinition */
-  virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, itk::ThreadIdType threadId);
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, itk::ThreadIdType threadId) ITK_OVERRIDE;
 
   /** Iterative call to the forward filter bank at each dimension. */
   virtual void ThreadedGenerateDataAtDimensionN(unsigned int idx, unsigned int direction,
@@ -397,13 +398,18 @@ public:
 
 protected:
   WaveletFilterBank();
-  virtual ~WaveletFilterBank() {}
+  ~WaveletFilterBank() ITK_OVERRIDE {}
+
+  void VerifyInputInformation() ITK_OVERRIDE
+  {
+
+  }
 
   /** GenerateOutputInformation
     * Set the size of the output image depending on the decimation factor
     * Copy information from the input image if existing.
     **/
-  virtual void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** The inverse transformation needs larger inputs requested
    * region than the output requested region (larger by subsampling
@@ -414,13 +420,13 @@ protected:
    * pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion()
-    throw (itk::InvalidRequestedRegionError);
+  void GenerateInputRequestedRegion()
+    throw (itk::InvalidRequestedRegionError) ITK_OVERRIDE;
 
   /** BeforeThreadedGenerateData
    * If SubsampleImageFactor neq 1, it is necessary to up sample input images in the Wavelet::INVERSE mode
    */
-  virtual void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** Internal Data Allocation
    * If m_SubsampleImageFactor != 1, internal data with progressive region size
@@ -431,17 +437,17 @@ protected:
   /** AfterThreadedGenerateData.
    * It enforce memory destruction of internal images
    */
-  virtual void AfterThreadedGenerateData();
+  void AfterThreadedGenerateData() ITK_OVERRIDE;
 
   /** CallCopyOutputRegionToInputRegion
    * Since input and output image may be of different size when a
    * subsampling factor has tp be applied, Region estimation
    * functions has to be reimplemented
    */
-  virtual void CallCopyOutputRegionToInputRegion
-    (InputImageRegionType& destRegion, const OutputImageRegionType& srcRegion);
-  virtual void CallCopyInputRegionToOutputRegion
-    (OutputImageRegionType& destRegion, const InputImageRegionType& srcRegion);
+  void CallCopyOutputRegionToInputRegion
+    (InputImageRegionType& destRegion, const OutputImageRegionType& srcRegion) ITK_OVERRIDE;
+  void CallCopyInputRegionToOutputRegion
+    (OutputImageRegionType& destRegion, const InputImageRegionType& srcRegion) ITK_OVERRIDE;
 
   /** CallCopyOutputRegionToInputRegion
    * This function is also redefined in order to adapt the shape of the regions with
@@ -455,7 +461,7 @@ protected:
                                                  const InputImageRegionType& srcRegion);
 
   /** Generate data redefinition */
-  virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, itk::ThreadIdType threadId);
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, itk::ThreadIdType threadId) ITK_OVERRIDE;
 
   /**
    * Iterative call to the forward filter bank at each dimension.

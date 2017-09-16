@@ -1,22 +1,24 @@
-/*=========================================================================
+/*
+ * Copyright (C) 2005-2017 Centre National d'Etudes Spatiales (CNES)
+ * Copyright (C) 2007-2012 Institut Mines Telecom / Telecom Bretagne
+ *
+ * This file is part of Orfeo Toolbox
+ *
+ *     https://www.orfeo-toolbox.org/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-  Program:   ORFEO Toolbox
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-
-  Copyright (c) Centre National d'Etudes Spatiales. All rights reserved.
-  See OTBCopyright.txt for details.
-
-  Copyright (c) Institut Mines-Telecom. All rights reserved.
-  See IMTCopyright.txt for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
 
 #ifndef itkSubsampleImageFilter_h
 #define itkSubsampleImageFilter_h
@@ -24,7 +26,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
 
-//Just to get the forwad/inverse definitions
+//Just to get the forward/inverse definitions
 #include "itkWaveletOperatorBase.h"
 
 namespace itk {
@@ -102,9 +104,8 @@ protected:
   SubsampleImageFilter ()
     {
     m_SubsampleFactor.Fill(1);
-    //this->SetNumberOfThreads(1);
     }
-  virtual ~SubsampleImageFilter() {}
+  ~SubsampleImageFilter() ITK_OVERRIDE {}
 
   /** Internal test function to check if there is any direction to subsample */
   bool IsSubsampleFactorOne() const;
@@ -112,24 +113,24 @@ protected:
   /** Since input and output image are very likely to be of different size.
    * Region estimation functions has to be reimplemented
    */
-  virtual void CallCopyOutputRegionToInputRegion
-    (InputImageRegionType& destRegion, const OutputImageRegionType& srcRegion);
-  virtual void CallCopyInputRegionToOutputRegion
-    (OutputImageRegionType& destRegion, const InputImageRegionType& srcRegion);
+  void CallCopyOutputRegionToInputRegion
+    (InputImageRegionType& destRegion, const OutputImageRegionType& srcRegion) ITK_OVERRIDE;
+  void CallCopyInputRegionToOutputRegion
+    (OutputImageRegionType& destRegion, const InputImageRegionType& srcRegion) ITK_OVERRIDE;
 
   /** Output image region size is not of the same dimension as the input.
    * That is why GenerateOutputInformation has to be redefined.
    */
-  virtual void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Set output image to 0 before processing */
-  virtual void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** Allows multithreading */
-  virtual void ThreadedGenerateData
-    (const OutputImageRegionType& outputRegionForThread, itk::ThreadIdType threadId);
+  void ThreadedGenerateData
+    (const OutputImageRegionType& outputRegionForThread, itk::ThreadIdType threadId) ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream& os, itk::Indent indent) const;
+  void PrintSelf(std::ostream& os, itk::Indent indent) const ITK_OVERRIDE;
 
 private:
   SubsampleImageFilter (const Self &);   // purposely not implemented

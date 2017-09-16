@@ -1,22 +1,24 @@
-/*=========================================================================
+/*
+ * Copyright (C) 2005-2017 Centre National d'Etudes Spatiales (CNES)
+ * Copyright (C) 2007-2012 Institut Mines Telecom / Telecom Bretagne
+ *
+ * This file is part of Orfeo Toolbox
+ *
+ *     https://www.orfeo-toolbox.org/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-  Program:   ORFEO Toolbox
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-
-  Copyright (c) Centre National d'Etudes Spatiales. All rights reserved.
-  See OTBCopyright.txt for details.
-
-  Copyright (c) Institut Mines-Telecom. All rights reserved.
-  See IMTCopyright.txt for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
 
 #ifndef itkWaveletPacketTransform_h
 #define itkWaveletPacketTransform_h
@@ -45,6 +47,10 @@ namespace itk {
  * ImageToImageListFilter while the latter comes from a
  * ImageListToImageFilter. Thse two classes have specific declaration
  * and implementation.
+ *
+ * The user is supposed to initialize Cost properly (through GetCost() macro)
+ * depending on its type before calling an Update(). The Cost class has to contain
+ * a New() and Evaluate() function.
  *
  * \sa FullyDecomposedWaveletPacketCost
  * \sa WaveletFilterBank
@@ -180,13 +186,13 @@ public:
 
 protected:
   WaveletPacketTransform();
-  virtual ~WaveletPacketTransform() {}
+  ~WaveletPacketTransform() ITK_OVERRIDE {}
 
   /** Generate data redefinition.
    * This class does not performs multi-threading directly. But it uses step by step the
    * GenerateData() of TFilter. If This one can thread, the transformation is threaded
    * (e.g. WaveletFilterBank) */
-  virtual void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Performs (if any) the local decomposition (called recursively) */
   virtual void GenerateData(unsigned int depth, OutputImageType * outputPtr,
@@ -223,7 +229,7 @@ private:
  *
  * It yields a list of images on the Wavelet::FORWARD decomposition. Conversely,
  * it takes an image list but yield a single list on the Wavelet::INVERSE transformation.
- * Hence, the Forward vs Inverse transformation has been splitted into two classes
+ * Hence, the Forward vs Inverse transformation has been split into two classes
  * (templated with itk::Wavelet::FORWARD and itk::Wavelet::INVERSE). The Forward class comes from
  * ImageToImageListFilter while the latter comes from a
  * ImageListToImageFilter. Thse two classes have specific declaration
@@ -231,7 +237,7 @@ private:
  *
  * This is the specific declaration of the Inverse transformation.
  *
- * In this specialization, the Cost template class is not usefull and then
+ * In this specialization, the Cost template class is not useful and then
  * declared to as FullyDecomposedWaveletPacketCost.
  *
  * \sa FullyDecomposedWaveletPacketCost
@@ -318,19 +324,19 @@ public:
 
 protected:
   WaveletPacketTransform();
-  virtual ~WaveletPacketTransform() {}
+  ~WaveletPacketTransform() ITK_OVERRIDE {}
 
   /** GenerateOutputInformation
     * Set the size of the output image depending on the decimation factor
     * Copy information from the input image if existing.
     **/
-  virtual void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Generate data redefinition.
    * This class does not performs multi-threading directly. But it uses step by step the
    * GenerateData() of TFilter. If This one can thread, the transformation is threaded
    * (e.g. WaveletFilterBank) */
-  virtual void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Performs (if any) the local decomposition (called recursively) */
   virtual unsigned int SetInputFilters(unsigned int& ruleID, InputImageIterator& inputIter,
