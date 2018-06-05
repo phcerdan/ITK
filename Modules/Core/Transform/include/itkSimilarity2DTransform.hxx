@@ -154,6 +154,15 @@ Similarity2DTransform<TParametersValueType>
   m_Scale = std::sqrt( itk::Math::sqr(this->GetMatrix()[0][0])
                       + itk::Math::sqr(this->GetMatrix()[0][1]) );
 
+  // Throw if m_Scale is zero. Comparing using denormal float points.
+  // https://bitbashing.io/comparing-floats.html
+  // http://en.cppreference.com/w/cpp/types/numeric_limits/epsilon
+  if(m_Scale < std::numeric_limits<TParametersValueType>::min())
+    {
+    itkExceptionMacro(<< "Bad Rotation Matrix. Scale cannot be zero.\n"
+        << "m_Scale : " << m_Scale );
+    }
+
   this->SetVarAngle( std::acos(this->GetMatrix()[0][0] / m_Scale) );
 
   if( this->GetMatrix()[1][0] < 0.0 )
