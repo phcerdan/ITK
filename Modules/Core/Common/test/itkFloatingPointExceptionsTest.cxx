@@ -29,9 +29,16 @@ extern const int itkFloatingPointExceptionsTest_int_zero;
 int
 itkFloatingPointExceptionsTest(int argc, char *argv[] )
 {
-  itk::FloatingPointExceptions::Enable();
-  itk::FloatingPointExceptions::
-    SetExceptionAction(itk::FloatingPointExceptions::EXIT);
+  bool saveFPEState;
+  itk::FloatingPointExceptions::ExceptionAction saveFPEAction;
+  if ( itk::FloatingPointExceptions::HasFloatingPointExceptionsSupport() )
+    {
+    saveFPEState = itk::FloatingPointExceptions::GetEnabled();
+    itk::FloatingPointExceptions::Enable();
+    saveFPEAction = itk::FloatingPointExceptions::GetExceptionAction();
+    itk::FloatingPointExceptions::
+      SetExceptionAction(itk::FloatingPointExceptions::EXIT);
+    }
   if(argc < 2)
     {
     std::cout << "No test specified" << std::endl;
@@ -146,6 +153,12 @@ itkFloatingPointExceptionsTest(int argc, char *argv[] )
       std::cout << e;
       std::cout.flush();
       }
+    }
+  // Restore
+  if ( itk::FloatingPointExceptions::HasFloatingPointExceptionsSupport() )
+    {
+    itk::FloatingPointExceptions::SetEnabled(saveFPEState);
+    itk::FloatingPointExceptions::SetExceptionAction(saveFPEAction);
     }
   return error_return;
 }
