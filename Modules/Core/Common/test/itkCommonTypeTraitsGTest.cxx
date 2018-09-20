@@ -22,6 +22,8 @@
 #include "itkRGBPixel.h"
 #include "itkPoint.h"
 #include "itkVector.h"
+// 2nd generation Fixed Array
+#include "itkContinuousIndex.h" // From Point
 
 #include <gtest/gtest.h>
 #include <type_traits>
@@ -29,39 +31,47 @@
 // info: is_pod (c++20 deprecated) is equivalent to is_trivial && is_standard_layout
 // info: type_traits cannot differentiate if a explicit move constructible/assignmet exist.
 
-
-TEST(TypeTraits, FixedArray) {
+TEST(TypeTraitsPOD, FixedArray) {
   using T = itk::FixedArray<float, 3>;
   EXPECT_EQ(std::is_trivial<T>::value, true);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }
 
-TEST(TypeTraits, Vector) {
+/************ First Generation FixedArray *************/
+TEST(TypeTraitsPOD, Vector) {
   using T = itk::Vector<float, 3>;
   EXPECT_EQ(std::is_trivial<T>::value, true);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }
 
-TEST(TypeTraits, CovariantVector) {
+TEST(TypeTraitsPOD, CovariantVector) {
   using T = itk::CovariantVector<float, 3>;
   EXPECT_EQ(std::is_trivial<T>::value, true);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }
 
-TEST(TypeTraits, Point) {
-  using T = itk::Point<float>;
+TEST(TypeTraitsPOD, Point) {
+  using T = itk::Point<float, 3>;
   EXPECT_EQ(std::is_trivial<T>::value, true);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }
 
-TEST(TypeTraits, RGBAPixel) {
+TEST(TypeTraitsPOD, RGBAPixel) {
   using T = itk::RGBAPixel<unsigned int>;
   EXPECT_EQ(std::is_trivial<T>::value, true);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }
 
-TEST(TypeTraits, RGBPixel) {
+TEST(TypeTraitsPOD, RGBPixel) {
   using T = itk::RGBPixel<unsigned int>;
+  EXPECT_EQ(std::is_trivial<T>::value, true);
+  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+}
+
+/************ Second Generation FixedArray *************/
+/* Derived from Point */
+TEST(TypeTraitsPOD, ContinuousIndex) {
+  using T = itk::ContinuousIndex<float, 2>;
   EXPECT_EQ(std::is_trivial<T>::value, true);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }
