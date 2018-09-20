@@ -23,6 +23,10 @@
 #include "itkPoint.h"
 #include "itkVector.h"
 
+// 2nd generation
+#include "itkQuadEdgeMeshPoint.h"
+#include "itkContinuosIndex.h"
+
 #include <gtest/gtest.h>
 #include <type_traits>
 
