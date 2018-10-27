@@ -139,8 +139,23 @@ public:
   ~FixedArray() = default;
 
   /** Conversion constructors */
-  FixedArray(const ValueType r[VLength]);
+  /** From C array. Values are copied individually instead of with a binary copy.  This
+   * allows the ValueType's assignment operator to be executed. */
+  template<typename TScalarType>
+  FixedArray(const TScalarType r[VLength])
+  {
+    Iterator i = this->Begin();
+    while ( i != this->End() )
+      {
+      *i++ = *r++;
+      }
+  }
+
+#if !defined( ITK_LEGACY_FUTURE_REMOVE )
   FixedArray(const ValueType & );
+#else
+  explicit FixedArray(const ValueType & );
+#endif
 
   /** Constructor to initialize a fixed array from another of any data type */
   template< typename TFixedArrayValueType >
@@ -153,12 +168,6 @@ public:
       *i++ = static_cast< TValue >( *input++ );
       }
   }
-
-  template< typename TScalarValue >
-  FixedArray(const TScalarValue *r)
-    {
-      std::copy(r, r + this->Size(), this->GetDataPointer());
-    }
 
   /** Operator= defined for a variety of types. */
   template< typename TFixedArrayValueType >
@@ -176,6 +185,17 @@ public:
     return *this;
   }
 
+  template<typename TScalarType>
+  FixedArray & operator=(const TScalarType r[VLength])
+  {
+    Iterator i = this->Begin();
+    while ( i != this->End() )
+      {
+      *i++ = *r++;
+      }
+    return *this;
+  }
+  /* Same as above, but providing extra checking to avoid copying if internal array already equal than input. */
   FixedArray & operator=(const ValueType r[VLength]);
 
   /** Operators == and != are used to compare whether two arrays are equal.
