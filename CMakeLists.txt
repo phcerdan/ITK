@@ -678,7 +678,7 @@ add_custom_target ( uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/EigenUninstall.cmake)
 else ()
 install(
-  DIRECTORY   "${CMAKE_CURRENT_SOURCE_DIR}/eigen/"
-  DESTINATION "${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen/eigen"
+  DIRECTORY   "${CMAKE_CURRENT_SOURCE_DIR}/Eigen/"
+  DESTINATION "${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen/Eigen"
   PATTERN "*.txt" EXCLUDE)
 endif ()
