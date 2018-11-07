@@ -34,7 +34,7 @@ endif()
 #############################################################################
 
 # automatically parse the version number
-file(READ "${PROJECT_SOURCE_DIR}/eigen/src/Core/util/Macros.h" _eigen_version_header)
+file(READ "${PROJECT_SOURCE_DIR}/Eigen/src/Core/util/Macros.h" _eigen_version_header)
 string(REGEX MATCH "define[ \t]+EIGEN_WORLD_VERSION[ \t]+([0-9]+)" _eigen_world_version_match "${_eigen_version_header}")
 set(EIGEN_WORLD_VERSION "${CMAKE_MATCH_1}")
 string(REGEX MATCH "define[ \t]+EIGEN_MAJOR_VERSION[ \t]+([0-9]+)" _eigen_major_version_match "${_eigen_version_header}")
@@ -680,6 +680,5 @@ else ()
 install(
   DIRECTORY   "${CMAKE_CURRENT_SOURCE_DIR}/eigen/"
   DESTINATION "${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen/eigen"
-  PATTERN "*.txt" EXCLUDE
-  COMPONENT Development)
+  PATTERN "*.txt" EXCLUDE)
 endif ()
