@@ -10,7 +10,7 @@ readonly subtree="Modules/ThirdParty/Eigen3/src/itkeigen"
 # readonly repo="https://github.com/eigenteam/eigen-git-mirror"
 # readonly repo="https://gitlab.kitware.com/third-party/eigen.git"
 readonly repo="https://gitlab.kitware.com/phcerdan/eigen.git"
-readonly tag="for/itk"
+readonly tag="for/itk_backup"
 readonly paths="
 Eigen/Cholesky
 Eigen/CholmodSupport
@@ -53,6 +53,7 @@ README.kitware.md
 
 CMakeLists.txt
 cmake/FindStandardMathLibrary.cmake
+cmake/Eigen3Config.cmake.in
 
 .gitattributes
 "
