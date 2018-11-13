@@ -677,7 +677,7 @@ install ( FILES ${CMAKE_CURRENT_SOURCE_DIR}/cmake/UseEigen3.cmake
 add_custom_target ( uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/EigenUninstall.cmake)
 else ()
-  set(CMAKEPACKAGE_INSTALL_DIR "${ITK3P_INSTALL_LIB_DIR}/cmake/"
+  set(CMAKEPACKAGE_INSTALL_DIR "${ITK3P_INSTALL_LIB_DIR}/cmake/")
   include (CMakePackageConfigHelpers)
 
   # Imported target support
