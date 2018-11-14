@@ -677,7 +677,7 @@ install ( FILES ${CMAKE_CURRENT_SOURCE_DIR}/cmake/UseEigen3.cmake
 add_custom_target ( uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/EigenUninstall.cmake)
 else ()
-  set(CMAKEPACKAGE_INSTALL_DIR "${ITK3P_INSTALL_LIB_DIR}/cmake/")
+  set(CMAKEPACKAGE_INSTALL_DIR "${ITK3P_INSTALL_LIBRARY_DIR}/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Modules")
   include (CMakePackageConfigHelpers)
 
   # Imported target support
@@ -685,9 +685,10 @@ else ()
 
   set(EIGEN_DEFINITIONS "EIGEN_MPL2_ONLY")
   target_compile_definitions (eigen INTERFACE ${EIGEN_DEFINITIONS})
+  # append itkeigen to allow find_package to work with internal ITK.
   target_include_directories (eigen INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>
+    $<INSTALL_INTERFACE:${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen>
   )
 
   # Export as title case Eigen
