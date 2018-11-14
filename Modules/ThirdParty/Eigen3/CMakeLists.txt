@@ -1,5 +1,6 @@
 project(ITKEigen3)
 set(ITKEigen3_THIRD_PARTY 1)
+# set(ITKEigen3_Libraries ITKEigen3)
 
 option(ITK_USE_SYSTEM_EIGEN "Use an outside build of Eigen." ${ITK_USE_SYSTEM_LIBRARIES})
 mark_as_advanced(ITK_USE_SYSTEM_EIGEN)
@@ -8,6 +9,7 @@ if(ITK_USE_SYSTEM_EIGEN)
   find_package(Eigen3 REQUIRED)
   set(ITKEigen3_INCLUDE_DIRS
     ${ITKEigen3_BINARY_DIR}/src
+    ${ITKEigen3_SOURCE_DIR}/src/
     )
   get_target_property(EIGEN_INCLUDE_DIRS Eigen3::Eigen INTERFACE_INCLUDE_DIRECTORIES)
   set(ITKEigen3_SYSTEM_INCLUDE_DIRS
