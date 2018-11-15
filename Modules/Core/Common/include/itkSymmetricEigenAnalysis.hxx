@@ -23,11 +23,43 @@
 
 namespace itk
 {
-
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
 unsigned int
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValues(const TMatrix  & A,
                                                                              TVector  & D) const
+{
+  if(m_UseEigenLibrary)
+    {
+    return ComputeEigenValuesWithEigenLibrary(A, D);
+    }
+  else
+    {
+    return ComputeEigenValuesLegacy(A, D);
+    }
+}
+
+template< typename TMatrix, typename TVector, typename TEigenMatrix >
+unsigned int
+SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndVectors(
+  const TMatrix  & A,
+  TVector        & EigenValues,
+  TEigenMatrix   & EigenVectors) const
+{
+  if(m_UseEigenLibrary)
+    {
+    return ComputeEigenValuesAndVectorsWithEigenLibrary(A, EigenValues, EigenVectors);
+    }
+  else
+    {
+    return ComputeEigenValuesAndVectorsLegacy(A, EigenValues, EigenVectors);
+    }
+}
+
+template< typename TMatrix, typename TVector, typename TEigenMatrix >
+unsigned int
+SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesLegacy(
+  const TMatrix  & A,
+  TVector  & D) const
 {
   auto * workArea1 = new double[m_Dimension];
 
@@ -66,7 +98,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValues(con
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
 unsigned int
-SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndVectors(
+SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndVectorsLegacy(
   const TMatrix  & A,
   TVector        & EigenValues,
   TEigenMatrix   & EigenVectors) const
