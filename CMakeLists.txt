@@ -686,8 +686,18 @@ else ()
   add_library (eigen INTERFACE)
   add_library (Eigen3::Eigen ALIAS eigen)
 
-  set(EIGEN_DEFINITIONS "EIGEN_MPL2_ONLY")
-  target_compile_definitions (eigen INTERFACE ${EIGEN_DEFINITIONS})
+  string(CONCAT ITK_USE_EIGEN_MPL2_ONLY_message
+    "Set compile definition EIGEN_MPL2_ONLY in header. "
+    "This definition might leak to third parties using both Eigen and ITK. "
+    "Use internally and at dashboards."
+    )
+  option(ITK_USE_EIGEN_MPL2_ONLY ${ITK_USE_EIGEN_MPL2_ONLY_message} OFF)
+  mark_as_advanced(ITK_USE_EIGEN_MPL2_ONLY)
+
+  if(ITK_USE_EIGEN_MPL2_ONLY)
+    set(EIGEN_DEFINITIONS "EIGEN_MPL2_ONLY")
+    target_compile_definitions (eigen INTERFACE ${EIGEN_DEFINITIONS})
+  endif()
   # BUILD: go one directory before to localize the headers:
   #   #include <itkeigen/Eigen/x>
   #   #include "itk_eigen.h"
