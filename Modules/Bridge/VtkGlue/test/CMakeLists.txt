@@ -12,6 +12,7 @@ QuickViewTest.cxx
 # or with a string to change title window, and change size of window
 # ITKVtkGlueTestDriver runViewImage image_file "MyImage"
 runViewImage.cxx
+runViewImages.cxx
 )
 
 CreateTestDriver(ITKVtkGlue "${ITKVtkGlue-Test_LIBRARIES}" "${ITKVtkGlueTests}")
