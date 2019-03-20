@@ -1080,13 +1080,13 @@ public:
   static constexpr bool IsSigned = NumericTraits< ValueType >::IsSigned;
   static constexpr bool IsInteger = false;
   static constexpr bool IsComplex = true;
-  static Self ZeroValue() { return Zero; }
-  static Self OneValue() { return One; }
+  static Self ZeroValue();
+  static Self OneValue();
   static constexpr unsigned int GetLength(const Self &) { return 2; }
   static constexpr unsigned int GetLength() { return 2; }
   static constexpr Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
-  static Self ZeroValue(const Self &) { return ZeroValue(); }
-  static Self OneValue(const Self &) { return OneValue(); }
+  static Self ZeroValue(const Self &);
+  static Self OneValue(const Self &);
 
   template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
