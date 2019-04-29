@@ -50,17 +50,18 @@ public:
   void * GetCallbackUserData();
 
   /** The function pointer type expected for a callback. */
-  typedef void ( *        UpdateInformationCallbackType )(void *);
-  typedef int ( *         PipelineModifiedCallbackType )(void *);
-  typedef int * ( *       WholeExtentCallbackType )(void *);
-  typedef double * ( *    SpacingCallbackType )(void *);
-  typedef double * ( *    OriginCallbackType )(void *);
-  typedef const char * ( *ScalarTypeCallbackType )(void *);
-  typedef int ( *         NumberOfComponentsCallbackType )(void *);
-  typedef void ( *        PropagateUpdateExtentCallbackType )(void *, int *);
-  typedef void ( *        UpdateDataCallbackType )(void *);
-  typedef int * ( *       DataExtentCallbackType )(void *);
-  typedef void * ( *      BufferPointerCallbackType )(void *);
+  using UpdateInformationCallbackType = void (*)(void *);
+  using PipelineModifiedCallbackType = int (*)(void *);
+  using WholeExtentCallbackType = int *(*)(void *);
+  using SpacingCallbackType = double *(*)(void *);
+  using OriginCallbackType = double *(*)(void *);
+  using DirectionCallbackType = double *(*)(void *);
+  using ScalarTypeCallbackType = const char *(*)(void *);
+  using NumberOfComponentsCallbackType = int (*)(void *);
+  using PropagateUpdateExtentCallbackType = void (*)(void *, int *);
+  using UpdateDataCallbackType = void (*)(void *);
+  using DataExtentCallbackType = int *(*)(void *);
+  using BufferPointerCallbackType = void *(*)(void *);
 
   /** Compatibility for VTK older than 4.4.  */
   typedef float * ( *FloatSpacingCallbackType )(void *);
@@ -103,6 +104,8 @@ private:
 
   CallbackTypeProxy                 GetOriginCallback() const;
 
+  DirectionCallbackType             GetDirectionCallback() const;
+
   ScalarTypeCallbackType            GetScalarTypeCallback() const;
 
   NumberOfComponentsCallbackType    GetNumberOfComponentsCallback() const;
@@ -136,6 +139,8 @@ protected:
 
   virtual double * OriginCallback() = 0;
 
+  virtual double * DirectionCallback() = 0;
+
   virtual float * FloatSpacingCallback() = 0;
 
   virtual float * FloatOriginCallback() = 0;
@@ -165,6 +170,8 @@ private:
   static double * SpacingCallbackFunction(void *);
 
   static double * OriginCallbackFunction(void *);
+
+  static double * DirectionCallbackFunction(void *);
 
   static float * FloatSpacingCallbackFunction(void *);
 

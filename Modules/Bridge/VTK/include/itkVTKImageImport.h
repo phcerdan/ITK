@@ -81,17 +81,18 @@ public:
 
   /** These are function pointer types for the pipeline connection
    * callbacks. */
-  typedef void ( *        UpdateInformationCallbackType )(void *);
-  typedef int ( *         PipelineModifiedCallbackType )(void *);
-  typedef int * ( *       WholeExtentCallbackType )(void *);
-  typedef double * ( *    SpacingCallbackType )(void *);
-  typedef double * ( *    OriginCallbackType )(void *);
-  typedef const char * ( *ScalarTypeCallbackType )(void *);
-  typedef int ( *         NumberOfComponentsCallbackType )(void *);
-  typedef void ( *        PropagateUpdateExtentCallbackType )(void *, int *);
-  typedef void ( *        UpdateDataCallbackType )(void *);
-  typedef int * ( *       DataExtentCallbackType )(void *);
-  typedef void * ( *      BufferPointerCallbackType )(void *);
+  using UpdateInformationCallbackType = void ( * )(void *);
+  using PipelineModifiedCallbackType = int ( * )(void *);
+  using WholeExtentCallbackType = int * ( * )(void *);
+  using SpacingCallbackType = double * ( * )(void *);
+  using OriginCallbackType = double * ( * )(void *);
+  using DirectionCallbackType = double * ( * )(void *);
+  using ScalarTypeCallbackType = const char * ( * )(void *);
+  using NumberOfComponentsCallbackType = int ( * )(void *);
+  using PropagateUpdateExtentCallbackType = void ( * )(void *, int *);
+  using UpdateDataCallbackType = void ( * )(void *);
+  using DataExtentCallbackType = int * ( * )(void *);
+  using BufferPointerCallbackType = void * ( * )(void *);
 
   /** Compatibility for VTK older than 4.4.  */
   typedef float * ( *FloatSpacingCallbackType )(void *);
@@ -124,6 +125,10 @@ public:
   itkGetConstMacro(FloatOriginCallback, FloatOriginCallbackType);
   void SetOriginCallback(FloatOriginCallbackType f)
   { this->SetFloatOriginCallback(f); }
+
+  /** What to do when receiving SetDirection(). */
+  itkSetMacro(DirectionCallback, DirectionCallbackType);
+  itkGetConstMacro(DirectionCallback, DirectionCallbackType);
 
   /** What to do when receiving UpdateInformation(). */
   itkSetMacro(ScalarTypeCallback, ScalarTypeCallbackType);
@@ -177,6 +182,7 @@ private:
   FloatSpacingCallbackType          m_FloatSpacingCallback;
   OriginCallbackType                m_OriginCallback;
   FloatOriginCallbackType           m_FloatOriginCallback;
+  DirectionCallbackType             m_DirectionCallback;
   ScalarTypeCallbackType            m_ScalarTypeCallback;
   NumberOfComponentsCallbackType    m_NumberOfComponentsCallback;
   PropagateUpdateExtentCallbackType m_PropagateUpdateExtentCallback;
