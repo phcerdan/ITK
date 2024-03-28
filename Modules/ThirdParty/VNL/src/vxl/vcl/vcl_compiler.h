@@ -120,7 +120,8 @@
 #   define VCL_GCC_100
 #  endif
 # else
-#  error "Dunno about this gcc"
+#  define VCL_GCC_10
+#  define VCL_GCC_103
 # endif
 #endif
 
